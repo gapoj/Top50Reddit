@@ -17,6 +17,7 @@ class RedditPost: Codable {
         var createdUtc:Int = 0
         var thumbnail:String? = ""
         var numComments:Int = 0
+        var visited = false
     }
     var title:String{
         return data.title
@@ -32,6 +33,14 @@ class RedditPost: Codable {
     }
     var numComments:Int{
         return data.numComments
+    }
+    var visited:Bool{
+        get{
+            return data.visited
+        }
+        set{
+            data.visited = newValue
+        }
     }
 }
 

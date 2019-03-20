@@ -61,11 +61,15 @@ class MasterViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                //let object = objects[indexPath.row] as! NSDate
+                let object = posts[indexPath.row]
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                //controller.detailItem = object
+                controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
+                object.visited = true
+                if let cell = tableView.cellForRow(at: indexPath) as? PostCell{
+                    cell.readedSignView.isHidden = true
+                }
             }
         }
     }

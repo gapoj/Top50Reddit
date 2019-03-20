@@ -22,6 +22,7 @@ class PostCell: UITableViewCell {
     func configure(withPost post:RedditPost){
         readedSignView.layer.cornerRadius = readedSignView.frame.height/2
         readedSignView.layer.borderWidth = 2
+        readedSignView.isHidden = post.visited
         authorLbl.text = post.author
         dateLbl.text = post.created
         if post.numComments == 1{
@@ -30,9 +31,9 @@ class PostCell: UITableViewCell {
             commentsNumberLbl.text = "\(post.numComments) comments"
         }
         titleLbl.text = post.title
-        if let url = URL(string: post.thumbnail){
-            thumbnailImg.load(url: url)
-        }
+        titleLbl.sizeToFit()
+        thumbnailImg.load(urlStr: post.thumbnail)
+      
     }
     //MARK: Actions
     @IBAction func dismissAction(_ sender: Any) {
