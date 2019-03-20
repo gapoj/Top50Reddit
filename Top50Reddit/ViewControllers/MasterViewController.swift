@@ -20,6 +20,7 @@ class MasterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.tableFooterView = UIView()
         refreshControl.addTarget(self, action: #selector(getData), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -106,5 +107,25 @@ extension MasterViewController: PostCellDelegate {
             tableView.deleteRows(at: [index], with: .left)
             
         }
+    }
+}
+//  MARK:- UIViewControllerRestoration
+extension MasterViewController{
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        super.encodeRestorableState(with: coder)
+        // preserve all user model object.
+        coder.encode(self.posts, forKey: "arrPost")
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        super.decodeRestorableState(with: coder)
+        if let arr = coder.decodeObject(forKey: "arrPost") as? [RedditPost]{
+            self.posts = arr
+        }
+    }
+    override func applicationFinishedRestoringState() {
+        print("MasterViewController finished restoring")
+        self.tableView.reloadData()
     }
 }

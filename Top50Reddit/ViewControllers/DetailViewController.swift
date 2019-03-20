@@ -36,6 +36,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         saveImageButton.isHidden = true
         configureView()
     }
@@ -71,4 +72,23 @@ class DetailViewController: UIViewController {
     
     
 }
+//  MARK:- UIViewControllerRestoration
+extension DetailViewController{
 
+    override func encodeRestorableState(with coder: NSCoder) {
+        super.encodeRestorableState(with: coder)
+        // preserve all user model object.
+        coder.encode(self.detailItem, forKey: "post")
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        super.decodeRestorableState(with: coder)
+        if let post = coder.decodeObject(forKey: "post") as? RedditPost{
+            self.detailItem = post
+        }
+    }
+    override func applicationFinishedRestoringState() {
+        print("DetailViewController finished restoring")
+        self.configureView()
+    }
+}
