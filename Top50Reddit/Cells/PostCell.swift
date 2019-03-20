@@ -32,7 +32,7 @@ class PostCell: UITableViewCell {
         }
         titleLbl.text = post.title
         titleLbl.sizeToFit()
-        thumbnailImg.load(urlStr: post.thumbnail)
+        thumbnailImg.load(urlStr: post.thumbnail, successHandler: {})
       
     }
     //MARK: Actions

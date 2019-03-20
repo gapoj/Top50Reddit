@@ -16,11 +16,13 @@ class MasterViewController: UIViewController {
     var detailViewController: DetailViewController? = nil
     let network = NetworkLayer()
     var posts = [RedditPost]()
-    
+    var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        refreshControl.addTarget(self, action: #selector(getData), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         getData()
         
     }
@@ -42,7 +44,7 @@ class MasterViewController: UIViewController {
     
     // MARK: - Network
     
-    func getData() {
+    @objc func getData() {
         activityindicator.startAnimating()
         network.get(urlString: MasterViewController.url,  successHandler: { [weak self](res:ListingResponse)  in
             guard let strongSelf = self else{return}
@@ -51,9 +53,14 @@ class MasterViewController: UIViewController {
             DispatchQueue.main.async {
                 strongSelf.activityindicator.stopAnimating()
                 strongSelf.tableView.reloadData()
+                strongSelf.refreshControl.endRefreshing()
             }
-        }) { (err) in
-            print(err)
+        }) {  [weak self](err) in
+            guard let strongSelf = self else{return}
+            strongSelf.activityindicator.stopAnimating()
+            strongSelf.refreshControl.endRefreshing()
+            let alertController = UIAlertController(title: "", message: err, preferredStyle: .alert)
+            strongSelf.present(alertController, animated: true, completion: nil)
         }
     }
     // MARK: - Segues

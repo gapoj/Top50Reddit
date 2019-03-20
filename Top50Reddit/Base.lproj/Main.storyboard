@@ -143,7 +143,7 @@
                                 <rect key="frame" x="141.5" y="233.5" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="cgL-0g-SIk" firstAttribute="trailing" secondItem="3aV-cC-Pdw" secondAttribute="trailing" id="2bi-3s-Pt7"/>
                             <constraint firstItem="3aV-cC-Pdw" firstAttribute="leading" secondItem="hmJ-5v-Dyx" secondAttribute="leading" id="5yR-Vd-gsY"/>
@@ -196,11 +196,20 @@
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tOs-LA-F5Y">
+                                <rect key="frame" x="109.5" y="164" width="101" height="30"/>
+                                <state key="normal" title="Save to gallery"/>
+                                <connections>
+                                    <action selector="saveAction:" destination="JEX-9P-axG" eventType="touchUpInside" id="Mc3-gB-NOM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="tOs-LA-F5Y" firstAttribute="top" secondItem="T9E-Bp-3H8" secondAttribute="bottom" id="3l7-3i-hh7"/>
                             <constraint firstItem="W7C-mb-7Jy" firstAttribute="top" secondItem="T9E-Bp-3H8" secondAttribute="bottom" constant="32" id="AKK-1Z-cvo"/>
                             <constraint firstItem="0XM-y9-sOw" firstAttribute="top" secondItem="VUw-jc-0yf" secondAttribute="top" constant="8" id="HmR-JU-GnC"/>
+                            <constraint firstItem="tOs-LA-F5Y" firstAttribute="centerX" secondItem="T9E-Bp-3H8" secondAttribute="centerX" id="JjC-Nx-W8L"/>
                             <constraint firstItem="0XM-y9-sOw" firstAttribute="leading" secondItem="VUw-jc-0yf" secondAttribute="leading" constant="8" id="Kwq-0P-Qu6"/>
                             <constraint firstItem="T9E-Bp-3H8" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="ehK-iK-bhj"/>
                             <constraint firstItem="VUw-jc-0yf" firstAttribute="trailing" secondItem="0XM-y9-sOw" secondAttribute="trailing" constant="8" id="hyK-4R-blh"/>
@@ -214,6 +223,7 @@
                     <navigationItem key="navigationItem" id="mOI-FS-AaM"/>
                     <connections>
                         <outlet property="authorLbl" destination="0XM-y9-sOw" id="deQ-Na-JPF"/>
+                        <outlet property="saveImageButton" destination="tOs-LA-F5Y" id="Vmc-Iq-Aud"/>
                         <outlet property="thumbnailImg" destination="T9E-Bp-3H8" id="t8Y-oB-fDP"/>
                         <outlet property="titleLbl" destination="W7C-mb-7Jy" id="tO2-am-nOJ"/>
                     </connections>

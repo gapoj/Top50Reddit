@@ -9,17 +9,20 @@
 import UIKit
 let imageCache = NSCache<NSString, AnyObject>()//so I can cache images
 extension UIImageView {
-    func load(urlStr: String) {
+    func load(urlStr: String, successHandler: @escaping () -> Void) {
         if let imageFromCache = imageCache.object(forKey: urlStr as NSString) as? UIImage {
             self.image = imageFromCache
+            successHandler()
         } else if let url = URL(string: urlStr){
             
             DispatchQueue.global().async { [weak self] in
+                guard let strogSelf = self else {return}
                 if let data = try? Data(contentsOf: url) {
                     if let image = UIImage(data: data) {
                         imageCache.setObject(image, forKey: urlStr as NSString)
                         DispatchQueue.main.async {
-                            self?.image = image
+                            strogSelf.image = image
+                            successHandler()
                         }
                     }
                 }
