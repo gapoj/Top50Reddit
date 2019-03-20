@@ -11,13 +11,14 @@
 		1811C830224111F800534F60 /* RedditPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811C82F224111F800534F60 /* RedditPost.swift */; };
 		1811C8332241169700534F60 /* ListingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811C8322241169700534F60 /* ListingResponse.swift */; };
 		1811C836224146F700534F60 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811C835224146F700534F60 /* PostCell.swift */; };
-		1811C839224175C100534F60 /* dismiss.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1811C838224175C100534F60 /* dismiss.pdf */; };
+		1811C83C2241864B00534F60 /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811C83B2241864B00534F60 /* UIImageView+extension.swift */; };
 		18852155224108EC0045DC18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18852154224108EC0045DC18 /* AppDelegate.swift */; };
 		18852157224108EC0045DC18 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18852156224108EC0045DC18 /* MasterViewController.swift */; };
 		18852159224108EC0045DC18 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18852158224108EC0045DC18 /* DetailViewController.swift */; };
 		1885215C224108EC0045DC18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1885215A224108EC0045DC18 /* Main.storyboard */; };
 		1885215E224108EE0045DC18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1885215D224108EE0045DC18 /* Assets.xcassets */; };
 		18852161224108EE0045DC18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1885215F224108EE0045DC18 /* LaunchScreen.storyboard */; };
+		18958A4D2241BE4B00B90086 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18958A4C2241BE4B00B90086 /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +26,7 @@
 		1811C82F224111F800534F60 /* RedditPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPost.swift; sourceTree = "<group>"; };
 		1811C8322241169700534F60 /* ListingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingResponse.swift; sourceTree = "<group>"; };
 		1811C835224146F700534F60 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
-		1811C838224175C100534F60 /* dismiss.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = dismiss.pdf; sourceTree = "<group>"; };
+		1811C83B2241864B00534F60 /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		18852151224108EC0045DC18 /* Top50Reddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Top50Reddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18852154224108EC0045DC18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18852156224108EC0045DC18 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -34,6 +35,7 @@
 		1885215D224108EE0045DC18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18852160224108EE0045DC18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18852162224108EE0045DC18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18958A4C2241BE4B00B90086 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,15 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		1811C83A224185E900534F60 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1811C83B2241864B00534F60 /* UIImageView+extension.swift */,
+				18958A4C2241BE4B00B90086 /* Date+Extension.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		18852148224108EC0045DC18 = {
 			isa = PBXGroup;
 			children = (
@@ -100,11 +111,11 @@
 		18852153224108EC0045DC18 /* Top50Reddit */ = {
 			isa = PBXGroup;
 			children = (
+				1811C83A224185E900534F60 /* Utils */,
 				1811C834224146B300534F60 /* ViewControllers */,
 				18852154224108EC0045DC18 /* AppDelegate.swift */,
 				1885215A224108EC0045DC18 /* Main.storyboard */,
 				1885215D224108EE0045DC18 /* Assets.xcassets */,
-				1811C838224175C100534F60 /* dismiss.pdf */,
 				1885215F224108EE0045DC18 /* LaunchScreen.storyboard */,
 				18852162224108EE0045DC18 /* Info.plist */,
 				1811C82E22410C5D00534F60 /* Network */,
@@ -175,7 +186,6 @@
 				18852161224108EE0045DC18 /* LaunchScreen.storyboard in Resources */,
 				1885215E224108EE0045DC18 /* Assets.xcassets in Resources */,
 				1885215C224108EC0045DC18 /* Main.storyboard in Resources */,
-				1811C839224175C100534F60 /* dismiss.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,10 +199,12 @@
 				1811C836224146F700534F60 /* PostCell.swift in Sources */,
 				1811C830224111F800534F60 /* RedditPost.swift in Sources */,
 				1811C8332241169700534F60 /* ListingResponse.swift in Sources */,
+				1811C83C2241864B00534F60 /* UIImageView+extension.swift in Sources */,
 				1811C82D22410C5000534F60 /* NetworkLayer.swift in Sources */,
 				18852159224108EC0045DC18 /* DetailViewController.swift in Sources */,
 				18852157224108EC0045DC18 /* MasterViewController.swift in Sources */,
 				18852155224108EC0045DC18 /* AppDelegate.swift in Sources */,
+				18958A4D2241BE4B00B90086 /* Date+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,9 @@
 
 import UIKit
 
+protocol PostCellDelegate {
+    func dismiss(cell:PostCell)
+}
 class PostCell: UITableViewCell {
     @IBOutlet weak var readedSignView: UIView!
     @IBOutlet weak var thumbnailImg: UIImageView!
@@ -15,6 +18,25 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var commentsNumberLbl: UILabel!
     @IBOutlet weak var titleLbl: UILabel!
-    @IBAction func dismissAction(_ sender: Any) {
+    var delegate:PostCellDelegate?
+    func configure(withPost post:RedditPost){
+        readedSignView.layer.cornerRadius = readedSignView.frame.height/2
+        readedSignView.layer.borderWidth = 2
+        authorLbl.text = post.author
+        dateLbl.text = post.created
+        if post.numComments == 1{
+            commentsNumberLbl.text = "\(post.numComments) comment"
+        }else{
+            commentsNumberLbl.text = "\(post.numComments) comments"
+        }
+        titleLbl.text = post.title
+        if let url = URL(string: post.thumbnail){
+            thumbnailImg.load(url: url)
+        }
     }
+    //MARK: Actions
+    @IBAction func dismissAction(_ sender: Any) {
+        delegate?.dismiss(cell: self)
+    }
+    
 }
