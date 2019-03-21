@@ -18,22 +18,47 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var commentsNumberLbl: UILabel!
     @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var acivityIndicator: UIActivityIndicatorView!
     var delegate:PostCellDelegate?
-    func configure(withPost post:RedditPost){
-        readedSignView.layer.cornerRadius = readedSignView.frame.height/2
-        readedSignView.layer.borderWidth = 2
-        readedSignView.isHidden = post.visited
-        authorLbl.text = post.author
-        dateLbl.text = post.created
-        if post.numComments == 1{
-            commentsNumberLbl.text = "\(post.numComments) comment"
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        configure(withPost: .none)
+    }
+    
+    fileprivate func setViews(alpha:CGFloat) {
+        readedSignView.alpha = alpha
+        authorLbl.alpha = alpha
+        dateLbl.alpha = alpha
+        commentsNumberLbl.alpha = alpha
+        titleLbl.alpha = alpha
+        thumbnailImg.alpha = alpha
+        dismissButton.alpha = alpha
+    }
+    
+    func configure(withPost post:RedditPost?){
+        if let post = post {
+            acivityIndicator.stopAnimating()
+            readedSignView.layer.cornerRadius = readedSignView.frame.height/2
+            readedSignView.layer.borderWidth = 2
+            readedSignView.isHidden = post.visited
+            authorLbl.text = post.author
+            dateLbl.text = post.created
+            if post.numComments == 1{
+                commentsNumberLbl.text = "\(post.numComments) comment"
+            }else{
+                commentsNumberLbl.text = "\(post.numComments) comments"
+            }
+            titleLbl.text = post.title
+            titleLbl.sizeToFit()
+            thumbnailImg.load(urlStr: post.thumbnail, successHandler: {})
+            setViews(alpha: 1)
         }else{
-            commentsNumberLbl.text = "\(post.numComments) comments"
+            setViews(alpha: 0)
+            acivityIndicator.startAnimating()
         }
-        titleLbl.text = post.title
-        titleLbl.sizeToFit()
-        thumbnailImg.load(urlStr: post.thumbnail, successHandler: {})
-      
     }
     //MARK: Actions
     @IBAction func dismissAction(_ sender: Any) {

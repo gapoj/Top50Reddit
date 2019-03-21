@@ -83,12 +83,17 @@
                                                     <color key="textColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="kFc-Qe-apg">
+                                                    <rect key="frame" x="133.5" y="80" width="20" height="20"/>
+                                                    <color key="color" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="cr2-Wy-EZm" secondAttribute="bottom" id="1nu-UE-X7I"/>
                                                 <constraint firstItem="eev-VR-Gn1" firstAttribute="top" secondItem="0EU-ck-9wg" secondAttribute="top" constant="8" id="4XT-m0-Mj4"/>
                                                 <constraint firstItem="hzf-e1-kcd" firstAttribute="centerY" secondItem="Ab0-Rf-uGL" secondAttribute="centerY" id="9Hf-lE-GOG"/>
+                                                <constraint firstItem="kFc-Qe-apg" firstAttribute="centerX" secondItem="0EU-ck-9wg" secondAttribute="centerX" id="Cxy-Lv-jVo"/>
                                                 <constraint firstAttribute="trailing" secondItem="bXf-Bq-70i" secondAttribute="trailing" constant="8" id="ECD-rB-Rgj"/>
                                                 <constraint firstItem="bXf-Bq-70i" firstAttribute="top" secondItem="hzf-e1-kcd" secondAttribute="bottom" constant="4" id="EUs-Hk-Fna"/>
                                                 <constraint firstAttribute="trailing" secondItem="cr2-Wy-EZm" secondAttribute="trailing" id="KHb-2K-Vyv"/>
@@ -103,6 +108,7 @@
                                                 <constraint firstItem="Tjr-vz-Dgh" firstAttribute="leading" secondItem="0EU-ck-9wg" secondAttribute="leading" id="cYC-p4-oPg"/>
                                                 <constraint firstItem="3L5-mM-SZx" firstAttribute="centerY" secondItem="0EU-ck-9wg" secondAttribute="centerY" id="eqM-Lr-P69"/>
                                                 <constraint firstItem="eev-VR-Gn1" firstAttribute="leading" secondItem="0EU-ck-9wg" secondAttribute="leading" constant="8" id="exd-sQ-mFH"/>
+                                                <constraint firstItem="kFc-Qe-apg" firstAttribute="centerY" secondItem="0EU-ck-9wg" secondAttribute="centerY" id="ffe-Jb-r6c"/>
                                                 <constraint firstItem="3L5-mM-SZx" firstAttribute="leading" secondItem="0EU-ck-9wg" secondAttribute="leading" constant="8" id="hro-rQ-IGp"/>
                                                 <constraint firstItem="Tjr-vz-Dgh" firstAttribute="top" secondItem="bXf-Bq-70i" secondAttribute="bottom" constant="4" id="kRB-24-p2k"/>
                                                 <constraint firstItem="bXf-Bq-70i" firstAttribute="leading" secondItem="3L5-mM-SZx" secondAttribute="trailing" constant="8" id="oBb-Lz-c1d"/>
@@ -110,9 +116,11 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
+                                            <outlet property="acivityIndicator" destination="kFc-Qe-apg" id="7Jt-5d-dU2"/>
                                             <outlet property="authorLbl" destination="Ab0-Rf-uGL" id="KVS-Ad-Ztq"/>
                                             <outlet property="commentsNumberLbl" destination="cr2-Wy-EZm" id="EHc-jN-AQh"/>
                                             <outlet property="dateLbl" destination="hzf-e1-kcd" id="lRk-dK-GeG"/>
+                                            <outlet property="dismissButton" destination="Tjr-vz-Dgh" id="lco-JD-PwI"/>
                                             <outlet property="readedSignView" destination="eev-VR-Gn1" id="dJk-up-U2z"/>
                                             <outlet property="thumbnailImg" destination="3L5-mM-SZx" id="JOP-ih-phZ"/>
                                             <outlet property="titleLbl" destination="bXf-Bq-70i" id="LQv-uJ-n1A"/>
@@ -124,6 +132,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="Gl8-Wv-1Pj" id="x6p-SA-UqI"/>
                                     <outlet property="delegate" destination="Gl8-Wv-1Pj" id="iWf-wN-uZ6"/>
+                                    <outlet property="prefetchDataSource" destination="Gl8-Wv-1Pj" id="VuY-5Q-FGC"/>
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHQ-jS-npk">

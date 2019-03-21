@@ -88,7 +88,6 @@ extension DetailViewController{
         }
     }
     override func applicationFinishedRestoringState() {
-        print("DetailViewController finished restoring")
         self.configureView()
     }
 }

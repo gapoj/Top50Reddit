@@ -12,10 +12,11 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityindicator: UIActivityIndicatorView!
     
-    static let url = "https://www.reddit.com/top.json?limit=50"
+    private var viewModel = RedditViewModel()
     var detailViewController: DetailViewController? = nil
+
     let network = NetworkLayer()
-    var posts = [RedditPost]()
+
     var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -24,10 +25,19 @@ class MasterViewController: UIViewController {
         tableView.tableFooterView = UIView()
         refreshControl.addTarget(self, action: #selector(getData), for: .valueChanged)
         tableView.refreshControl = refreshControl
+
+        activityindicator.startAnimating()
+        viewModel.delegate = self
+
         getData()
         
     }
     
+    @objc func getData(){
+        activityindicator.startAnimating()
+        viewModel.reset()
+        viewModel.getData()
+    }
     override func viewWillAppear(_ animated: Bool) {
         if splitViewController!.isCollapsed, let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -39,37 +49,17 @@ class MasterViewController: UIViewController {
     
     @IBAction func dismissAllAction(_ sender: Any) {
         let indexSet = IndexSet(arrayLiteral: 0)
-        posts.removeAll()
+       viewModel.reset()
         tableView.reloadSections(indexSet, with: .bottom)
     }
     
-    // MARK: - Network
     
-    @objc func getData() {
-        activityindicator.startAnimating()
-        network.get(urlString: MasterViewController.url,  successHandler: { [weak self](res:ListingResponse)  in
-            guard let strongSelf = self else{return}
-            print(res.posts)
-            strongSelf.posts = res.posts
-            DispatchQueue.main.async {
-                strongSelf.activityindicator.stopAnimating()
-                strongSelf.tableView.reloadData()
-                strongSelf.refreshControl.endRefreshing()
-            }
-        }) {  [weak self](err) in
-            guard let strongSelf = self else{return}
-            strongSelf.activityindicator.stopAnimating()
-            strongSelf.refreshControl.endRefreshing()
-            let alertController = UIAlertController(title: "", message: err, preferredStyle: .alert)
-            strongSelf.present(alertController, animated: true, completion: nil)
-        }
-    }
     // MARK: - Segues
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let object = posts[indexPath.row]
+                let object = viewModel.post(at:indexPath.row)
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
@@ -86,24 +76,47 @@ extension MasterViewController: UITableViewDataSource{
     // MARK: - Table View
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        return viewModel.total
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? PostCell{
-            let post = posts[indexPath.row]
-            cell.configure(withPost: post)
+            
+            if isLoadingCell(for: indexPath) {
+                cell.configure(withPost: .none)
+            } else {
+                let post = viewModel.post(at: indexPath.row)
+                cell.configure(withPost: post)
+            }
             cell.delegate = self
             return cell
         }
         return UITableViewCell()
     }
-}
 
+}
+extension MasterViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: isLoadingCell) {
+            viewModel.getData()
+        }
+    }
+}
+private extension MasterViewController {
+    func isLoadingCell(for indexPath: IndexPath) -> Bool {
+        return indexPath.row >= viewModel.currentCount
+    }
+    
+    func visibleIndexPathsToReload(intersecting indexPaths: [IndexPath]) -> [IndexPath] {
+        let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows ?? []
+        let indexPathsIntersection = Set(indexPathsForVisibleRows).intersection(indexPaths)
+        return Array(indexPathsIntersection)
+    }
+}
 extension MasterViewController: PostCellDelegate {
     func dismiss(cell: PostCell) {
         if let index = tableView.indexPath(for: cell){
-            posts.remove(at: index.row)
+            viewModel.removePost(at: index.row)
             tableView.deleteRows(at: [index], with: .left)
             
         }
@@ -115,13 +128,17 @@ extension MasterViewController{
     override func encodeRestorableState(with coder: NSCoder) {
         super.encodeRestorableState(with: coder)
         // preserve all user model object.
-        coder.encode(self.posts, forKey: "arrPost")
+
+        coder.encode(self.viewModel.posts, forKey: "arrPost")
+
     }
     
     override func decodeRestorableState(with coder: NSCoder) {
         super.decodeRestorableState(with: coder)
         if let arr = coder.decodeObject(forKey: "arrPost") as? [RedditPost]{
-            self.posts = arr
+
+            self.viewModel.posts = arr
+
         }
     }
     override func applicationFinishedRestoringState() {
@@ -129,3 +146,29 @@ extension MasterViewController{
         self.tableView.reloadData()
     }
 }
+
+extension MasterViewController: RedditViewModelDelegate {
+    func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?) {
+        // first load
+        refreshControl.endRefreshing()
+        guard let newIndexPathsToReload = newIndexPathsToReload else {
+            activityindicator.stopAnimating()
+            tableView.isHidden = false
+            tableView.reloadData()
+            return
+        }
+       
+        print(newIndexPathsToReload)
+       let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+        tableView.reloadRows(at: indexPathsToReload, with: .automatic)
+    }
+    
+    func onFetchFailed(with reason: String) {
+        activityindicator.stopAnimating()
+        
+        let ac = UIAlertController(title: "", message: reason, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+}
+

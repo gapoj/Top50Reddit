@@ -18,6 +18,10 @@ class RedditPost: Codable {
         var thumbnail:String? = ""
         var numComments:Int = 0
         var visited = false
+        var name:String = ""
+    }
+    var name:String{
+        return data.name
     }
     var title:String{
         return data.title
