@@ -34,6 +34,7 @@ class MasterViewController: UIViewController {
     }
     
     @objc func getData(){
+        
         activityindicator.startAnimating()
         viewModel.reset()
         viewModel.getData()
@@ -117,7 +118,9 @@ extension MasterViewController: PostCellDelegate {
     func dismiss(cell: PostCell) {
         if let index = tableView.indexPath(for: cell){
             viewModel.removePost(at: index.row)
+            viewModel.deleted += 1
             tableView.deleteRows(at: [index], with: .left)
+        
             
         }
     }

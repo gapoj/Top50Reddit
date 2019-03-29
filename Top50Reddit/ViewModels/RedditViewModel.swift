@@ -17,6 +17,7 @@ final class RedditViewModel {
     private let url = "https://www.reddit.com/top.json?limit=10"
     // MARK: - Network
     private let maxPosts = 50
+    var deleted = 0
     private let network = NetworkLayer()
     var posts = [RedditPost]()
     var delegate:RedditViewModelDelegate?
@@ -34,9 +35,10 @@ final class RedditViewModel {
         return posts.count
     }
     var total: Int {
-        return posts.isEmpty ? 0 : maxPosts ///if we have not post not showing the pagination
+        return posts.isEmpty ? 0 : (maxPosts - deleted) ///if we have not post not showing the pagination
     }
     func reset(){
+        deleted = 0
         firstPage = true
         after = nil
         posts.removeAll()
