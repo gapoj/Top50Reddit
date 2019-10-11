@@ -22,7 +22,7 @@ class NetworkLayer {
                            errorHandler: @escaping ErrorHandler) {
         
         let completionHandler: NetworkCompletionHandler = { (data, urlResponse, error) in
-            if let error = error {
+           guard  error == nil else {
                 errorHandler(NetworkLayer.genericError)
                 return
             }

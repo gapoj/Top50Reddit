@@ -14,9 +14,9 @@ class MasterViewController: UIViewController {
     
     private var viewModel = RedditViewModel()
     var detailViewController: DetailViewController? = nil
-
+    
     let network = NetworkLayer()
-
+    
     var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -25,10 +25,10 @@ class MasterViewController: UIViewController {
         tableView.tableFooterView = UIView()
         refreshControl.addTarget(self, action: #selector(getData), for: .valueChanged)
         tableView.refreshControl = refreshControl
-
+        
         activityindicator.startAnimating()
         viewModel.delegate = self
-
+        
         getData()
         
     }
@@ -50,7 +50,7 @@ class MasterViewController: UIViewController {
     
     @IBAction func dismissAllAction(_ sender: Any) {
         let indexSet = IndexSet(arrayLiteral: 0)
-       viewModel.reset()
+        viewModel.reset()
         tableView.reloadSections(indexSet, with: .bottom)
     }
     
@@ -90,11 +90,16 @@ extension MasterViewController: UITableViewDataSource{
                 cell.configure(withPost: post)
             }
             cell.delegate = self
+            //adding white disclousure indicator
+            let imgView = UIImageView(frame: CGRect(x: 0, y: 11, width: 18, height: 18))
+            imgView.contentMode = .scaleAspectFit
+            imgView.image = #imageLiteral(resourceName: "chevron-right")
+            cell.accessoryView = imgView
             return cell
         }
         return UITableViewCell()
     }
-
+    
 }
 extension MasterViewController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
@@ -120,7 +125,7 @@ extension MasterViewController: PostCellDelegate {
             viewModel.removePost(at: index.row)
             viewModel.deleted += 1
             tableView.deleteRows(at: [index], with: .left)
-        
+            
             
         }
     }
@@ -131,17 +136,17 @@ extension MasterViewController{
     override func encodeRestorableState(with coder: NSCoder) {
         super.encodeRestorableState(with: coder)
         // preserve all user model object.
-
+        
         coder.encode(self.viewModel.posts, forKey: "arrPost")
-
+        
     }
     
     override func decodeRestorableState(with coder: NSCoder) {
         super.decodeRestorableState(with: coder)
         if let arr = coder.decodeObject(forKey: "arrPost") as? [RedditPost]{
-
+            
             self.viewModel.posts = arr
-
+            
         }
     }
     override func applicationFinishedRestoringState() {
@@ -160,9 +165,9 @@ extension MasterViewController: RedditViewModelDelegate {
             tableView.reloadData()
             return
         }
-       
+        
         print(newIndexPathsToReload)
-       let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
         tableView.reloadRows(at: indexPathsToReload, with: .automatic)
     }
     
